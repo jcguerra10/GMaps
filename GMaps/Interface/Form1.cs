@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 using GMaps.Model;
 
 namespace GMaps
@@ -97,5 +98,31 @@ namespace GMaps
         {
             
         }
+
+        private void setPoint()
+        {
+            foreach (PointLatLng p in points)
+            {
+                GMapMarker gm = new GMarkerGoogle(p, GMarkerGoogleType.arrow);
+                ovPoints.Markers.Add(gm);
+            }
+        }
+
+        private void setPolygons()
+        {
+            GMapPolygon gr = new GMapPolygon(polygons, "Polygon");
+            gr.Fill = new SolidBrush(Color.FromArgb(50, Color.Coral);
+            gr.Stroke = new Pen(Color.Coral, 2);
+            
+            ovPolygons .Polygons.Add(gr);
+        }
+
+        private void setRoutes()
+        {
+            GMapRoute gr = new GMapRoute(routes, "Routes");
+            gr.Stroke = new Pen(Color.Coral, 2);
+            ovRoutes.Routes.Add(gr);
+        }
+        
     }
 }
