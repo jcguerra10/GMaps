@@ -41,6 +41,10 @@ namespace GMaps
             ovPoints = new GMapOverlay("points");
             ovPolygons = new GMapOverlay("polygons");
             ovRoutes = new GMapOverlay("routes");
+
+            comboBox1.Items.Add("Point");
+            comboBox1.Items.Add("Polygon");
+            comboBox1.Items.Add("Route");
         }
 
         private void gMapControl1_Load(object sender, EventArgs e)
@@ -61,6 +65,7 @@ namespace GMaps
                 double la = double.Parse(textBox1.Text, CultureInfo.InvariantCulture);
                 textBox1.Text = "";
                 double lo = Double.Parse(textBox2.Text, CultureInfo.InvariantCulture);
+                textBox2.Text = "";
 
                 PointLatLng p = new PointLatLng(la, lo);
 
@@ -96,7 +101,18 @@ namespace GMaps
 
         private void Show_Click(object sender, EventArgs e)
         {
-            
+            if (comboBox1.Text == "Point")
+            {
+                setPoint();
+            }
+            else if (comboBox1.Text == "Polygon")
+            {
+                setPolygons();
+            }
+            else
+            {
+                setRoutes();
+            }
         }
 
         private void setPoint()
@@ -111,7 +127,7 @@ namespace GMaps
         private void setPolygons()
         {
             GMapPolygon gr = new GMapPolygon(polygons, "Polygon");
-            gr.Fill = new SolidBrush(Color.FromArgb(50, Color.Coral);
+            gr.Fill = new SolidBrush(Color.FromArgb(50, Color.Coral));
             gr.Stroke = new Pen(Color.Coral, 2);
             
             ovPolygons .Polygons.Add(gr);
