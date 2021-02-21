@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace GMaps
 {
     public partial class Form1 : Form
     {
-        private DataManager dm = new DataManager();
+        private DataManager dm;
 
 
         private List<PointLatLng> points;
@@ -32,7 +33,6 @@ namespace GMaps
         public Form1()
         {
             InitializeComponent();
-            dm = new DataManager();
 
             points = new List<PointLatLng>();
             polygons = new List<PointLatLng>();
@@ -139,6 +139,14 @@ namespace GMaps
             gr.Stroke = new Pen(Color.Coral, 2);
             ovRoutes.Routes.Add(gr);
         }
-        
+
+        private void dataSetup_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string path = openFileDialog1.FileName;
+                dm = new DataManager(path);
+            }
+        }
     }
 }

@@ -38,6 +38,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.Show = new System.Windows.Forms.Button();
             this.Clear = new System.Windows.Forms.Button();
+            this.dataSetup = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // gMapControl1
@@ -129,7 +131,7 @@
             // 
             // Clear
             // 
-            this.Clear.Location = new System.Drawing.Point(24, 12);
+            this.Clear.Location = new System.Drawing.Point(24, 242);
             this.Clear.Name = "Clear";
             this.Clear.Size = new System.Drawing.Size(212, 19);
             this.Clear.TabIndex = 8;
@@ -137,11 +139,26 @@
             this.Clear.UseVisualStyleBackColor = true;
             this.Clear.Click += new System.EventHandler(this.Clear_Click);
             // 
+            // dataSetup
+            // 
+            this.dataSetup.Location = new System.Drawing.Point(24, 12);
+            this.dataSetup.Name = "dataSetup";
+            this.dataSetup.Size = new System.Drawing.Size(212, 23);
+            this.dataSetup.TabIndex = 9;
+            this.dataSetup.Text = "Data Setup";
+            this.dataSetup.UseVisualStyleBackColor = true;
+            this.dataSetup.Click += new System.EventHandler(this.dataSetup_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.dataSetup);
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.Show);
             this.Controls.Add(this.comboBox1);
@@ -156,6 +173,10 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+
+        private System.Windows.Forms.Button dataSetup;
 
         private System.Windows.Forms.Button Clear;
 
