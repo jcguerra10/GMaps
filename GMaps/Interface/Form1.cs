@@ -199,7 +199,7 @@ namespace GMaps
                     setChartPieDepartment();
                     break;
                 case "Points":
-                    
+                    setChartPointsDepartment();
                     break;
             }
         }
@@ -271,6 +271,41 @@ namespace GMaps
                 string s = (string) dep[i];
                 chart1.Series["s"].ChartType = SeriesChartType.Pie;
                 chart1.Series["s"].Points.AddXY(s,(int)count[i]);
+            }
+        }
+        
+        private void setChartPointsDepartment()
+        {
+            string[] lines = File.ReadAllLines(dm.getPath());
+            ArrayList dep = dm.getAllDeps();
+            ArrayList count = new ArrayList();
+            
+            chart1.Series.Clear();
+            
+            for (int i = 0; i < dep.Count; i++)
+            {
+                count.Add(0);
+            }
+            for (int i = 0;i<dep.Count;i++)
+            {
+                foreach (var va in lines)
+                {
+                    var tva = va.Split(',');
+                    if (tva[2].Equals(dep[i]))
+                    {
+                        count[i] = (int)count[i] + 1;
+                    }
+                }
+            }
+            
+            chart1.Series.Add("Departamentos");
+            
+            chart1.Palette = ChartColorPalette.Bright;
+
+            for (int i = 0; i < dep.Count; i++)
+            {
+                chart1.Series["Departamentos"].ChartType = SeriesChartType.Point;
+                chart1.Series["Departamentos"].Points.AddY((int)count[i]);
             }
         }
     }
