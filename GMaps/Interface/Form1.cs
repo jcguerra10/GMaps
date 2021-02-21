@@ -163,6 +163,8 @@ namespace GMaps
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             string op = comboBox2.Text;
+            
+            comboBox3.Items.Clear();
 
             switch (op)
             {
@@ -192,13 +194,9 @@ namespace GMaps
                     {
                         setChartDepartment();
                     }
-                    else
-                    {
-                        
-                    }
                     break;
                 case "Pie":
-
+                    setChartPieDepartment();
                     break;
                 case "Points":
                     
@@ -236,6 +234,43 @@ namespace GMaps
                 Series serie = chart1.Series.Add((string)dep[i]);
                 serie.Label = count[i].ToString();
                 serie.Points.Add((int)count[i]);
+            }
+        }
+        
+        private void setChartPieDepartment()
+        {
+            string[] lines = File.ReadAllLines(dm.getPath());
+            ArrayList dep = dm.getAllDeps();
+            ArrayList count = new ArrayList();
+            
+            chart1.Series.Clear();
+            
+            for (int i = 0; i < dep.Count; i++)
+            {
+                count.Add(0);
+            }
+            for (int i = 0;i<dep.Count;i++)
+            {
+                foreach (var va in lines)
+                {
+                    var tva = va.Split(',');
+                    if (tva[2].Equals(dep[i]))
+                    {
+                        count[i] = (int)count[i] + 1;
+                    }
+                }
+            }
+            
+            chart1.Palette = ChartColorPalette.Bright;
+            
+            chart1.Series.Add("s");
+            
+            for (int i = 0; i < dep.Count; i++)
+            {
+                
+                string s = (string) dep[i];
+                chart1.Series["s"].ChartType = SeriesChartType.Pie;
+                chart1.Series["s"].Points.AddXY(s,(int)count[i]);
             }
         }
     }
