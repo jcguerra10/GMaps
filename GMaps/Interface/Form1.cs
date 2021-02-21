@@ -170,13 +170,12 @@ namespace GMaps
             {
                 case "Bars":
                     comboBox3.Items.Add("Department");
-                    comboBox3.Items.Add("Municipality");
                     break;
                 case "Pie":
                     comboBox3.Items.Add("Department");
                     break;
                 case "Points":
-                    
+                    comboBox3.Items.Add("Department");
                     break;
             }
         }
@@ -190,10 +189,7 @@ namespace GMaps
             {
                 case "Bars":
                     string op1 = comboBox3.Text;
-                    if (op1 == "Department")
-                    {
-                        setChartDepartment();
-                    }
+                    setChartDepartment();
                     break;
                 case "Pie":
                     setChartPieDepartment();
