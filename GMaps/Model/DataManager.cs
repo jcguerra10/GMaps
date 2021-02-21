@@ -29,5 +29,35 @@ namespace GMaps.Model
         {
             return l;
         }
+
+        public string getPath()
+        {
+            return path;
+        }
+
+        public ArrayList getAllDeps()
+        {
+            string[] lines = File.ReadAllLines(path);
+            ArrayList ar = new ArrayList();
+            foreach ( var i in lines)
+            {
+                var valores = i.Split(',');
+                string s = valores[2];
+
+                if (ar.Count == 0)
+                {
+                    ar.Add(s);
+                }
+                else
+                {
+                    if (!ar.Contains(s))
+                    {
+                        ar.Add(s);
+                    }
+                }
+            }
+
+            return ar;
+        }
     }
 }

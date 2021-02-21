@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -45,8 +47,14 @@ namespace GMaps
             comboBox1.Items.Add("Point");
             comboBox1.Items.Add("Polygon");
             comboBox1.Items.Add("Route");
+
+            comboBox2.Items.Add("Bars");
+            comboBox2.Items.Add("Pie");
+            comboBox2.Items.Add("Points");
         }
 
+        // TAB1
+        
         private void gMapControl1_Load(object sender, EventArgs e)
         {
             gMapControl1.MapProvider = GoogleMapProvider.Instance;
@@ -146,6 +154,88 @@ namespace GMaps
             {
                 string path = openFileDialog1.FileName;
                 dm = new DataManager(path);
+            }
+        }
+        
+        //TAB2
+
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string op = comboBox2.Text;
+
+            switch (op)
+            {
+                case "Bars":
+                    comboBox3.Items.Add("Department");
+                    comboBox3.Items.Add("Municipality");
+                    break;
+                case "Pie":
+                    comboBox3.Items.Add("Department");
+                    break;
+                case "Points":
+                    
+                    break;
+            }
+        }
+
+        private void setChart(object sender, MouseEventArgs e)
+        {
+            string op = comboBox2.Text;
+            
+
+            switch (op)
+            {
+                case "Bars":
+                    string op1 = comboBox3.Text;
+                    if (op1 == "Department")
+                    {
+                        setChartDepartment();
+                    }
+                    else
+                    {
+                        
+                    }
+                    break;
+                case "Pie":
+
+                    break;
+                case "Points":
+                    
+                    break;
+            }
+        }
+
+        private void setChartDepartment()
+        {
+            string[] lines = File.ReadAllLines(dm.getPath());
+            ArrayList dep = dm.getAllDeps();
+            ArrayList count = new ArrayList();
+            
+            chart1.Series.Clear();
+            
+            for (int i = 0; i < dep.Count; i++)
+            {
+                count.Add(0);
+            }
+            for (int i = 0;i<dep.Count;i++)
+            {
+                foreach (var va in lines)
+                {
+                    var tva = va.Split(',');
+                    if (tva[2].Equals(dep[i]))
+                    {
+                        count[i] = (int)count[i] + 1;
+                    }
+                }
+            }
+            
+            for (int i = 0; i < dep.Count; i++)
+            {
+
+                Series serie = chart1.Series.Add((string)dep[i]);
+                serie.Label = count[i].ToString();
+                serie.Points.Add((int)count[i]);
             }
         }
     }
