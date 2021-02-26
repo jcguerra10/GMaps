@@ -14,6 +14,18 @@ namespace GMaps.Model
             regionConfig();
         }
 
+        public string Path
+        {
+            get => path;
+            set => path = value;
+        }
+
+        public ArrayList L
+        {
+            get => l;
+            set => l = value;
+        }
+
         private void regionConfig()
         {
             string[] lines = File.ReadAllLines(path);
@@ -23,16 +35,6 @@ namespace GMaps.Model
                 var valor = i.Split(',');
                 l.Add(valor);
             }
-        }
-
-        public ArrayList getL()
-        {
-            return l;
-        }
-
-        public string getPath()
-        {
-            return path;
         }
 
         public ArrayList getAllDeps()

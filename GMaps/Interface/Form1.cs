@@ -51,6 +51,10 @@ namespace GMaps
             comboBox2.Items.Add("Bars");
             comboBox2.Items.Add("Pie");
             comboBox2.Items.Add("Points");
+
+            comboBox4.Items.Add("Region");
+            comboBox4.Items.Add("Department Dane Code");
+            comboBox4.Items.Add("Department");
         }
 
         // TAB1
@@ -115,11 +119,11 @@ namespace GMaps
             }
             else if (comboBox1.Text == "Polygon")
             {
-                setPolygons();
+                SetPolygons();
             }
             else
             {
-                setRoutes();
+                SetRoutes();
             }
         }
 
@@ -132,7 +136,7 @@ namespace GMaps
             }
         }
 
-        private void setPolygons()
+        private void SetPolygons()
         {
             GMapPolygon gr = new GMapPolygon(polygons, "Polygon");
             gr.Fill = new SolidBrush(Color.FromArgb(50, Color.Coral));
@@ -141,7 +145,7 @@ namespace GMaps
             ovPolygons .Polygons.Add(gr);
         }
 
-        private void setRoutes()
+        private void SetRoutes()
         {
             GMapRoute gr = new GMapRoute(routes, "Routes");
             gr.Stroke = new Pen(Color.Coral, 2);
@@ -180,7 +184,7 @@ namespace GMaps
             }
         }
 
-        private void setChart(object sender, MouseEventArgs e)
+        private void SetChart(object sender, MouseEventArgs e)
         {
             string op = comboBox2.Text;
             
@@ -189,20 +193,20 @@ namespace GMaps
             {
                 case "Bars":
                     string op1 = comboBox3.Text;
-                    setChartDepartment();
+                    SetChartDepartment();
                     break;
                 case "Pie":
-                    setChartPieDepartment();
+                    SetChartPieDepartment();
                     break;
                 case "Points":
-                    setChartPointsDepartment();
+                    SetChartPointsDepartment();
                     break;
             }
         }
 
-        private void setChartDepartment()
+        private void SetChartDepartment()
         {
-            string[] lines = File.ReadAllLines(dm.getPath());
+            string[] lines = File.ReadAllLines(dm.Path);
             ArrayList dep = dm.getAllDeps();
             ArrayList count = new ArrayList();
             
@@ -233,9 +237,9 @@ namespace GMaps
             }
         }
         
-        private void setChartPieDepartment()
+        private void SetChartPieDepartment()
         {
-            string[] lines = File.ReadAllLines(dm.getPath());
+            string[] lines = File.ReadAllLines(dm.Path);
             ArrayList dep = dm.getAllDeps();
             ArrayList count = new ArrayList();
             
@@ -270,9 +274,9 @@ namespace GMaps
             }
         }
         
-        private void setChartPointsDepartment()
+        private void SetChartPointsDepartment()
         {
-            string[] lines = File.ReadAllLines(dm.getPath());
+            string[] lines = File.ReadAllLines(dm.Path);
             ArrayList dep = dm.getAllDeps();
             ArrayList count = new ArrayList();
             
@@ -303,6 +307,106 @@ namespace GMaps
                 chart1.Series["Departamentos"].ChartType = SeriesChartType.Point;
                 chart1.Series["Departamentos"].Points.AddY((int)count[i]);
             }
+        }
+        
+        // tab3
+
+        // comboBox4.Items.Add("Department Dane Code");
+        // comboBox4.Items.Add("Department");
+        // comboBox4.Items.Add("Dane Code Of The Municipality");
+        
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox5.Enabled = true;
+
+            string s = comboBox4.Text;
+
+            switch (s)
+            {
+                case "Region":
+                    SetComboBox(0);
+                    break;
+                case "Department Dane Code":
+                    SetComboBox(1);
+                    break;
+                case "Department":
+                    SetComboBox(2);
+                    break;
+            }
+        }
+
+        private void SetComboBox(int j)
+        {
+            string[] lines = File.ReadAllLines(dm.Path);
+            ArrayList ar = new ArrayList();
+            comboBox5.Items.Clear();
+            comboBox5.Text = "";
+            foreach ( var i in lines)
+            {
+                var valores = i.Split(',');
+                string s = valores[j];
+
+                if (ar.Count == 0)
+                {
+                    ar.Add(s);
+                }
+                else
+                {
+                    if (!ar.Contains(s))
+                    {
+                        ar.Add(s);
+                    }
+                }
+            }
+            foreach(string f in ar) {
+                comboBox5.Items.Add(f);
+            }       
+        }
+
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int index = GetIndexCb4();
+            string s = comboBox5.Text;
+
+            dataGridView1.Rows.Clear();
+
+            string[] lines = File.ReadAllLines(dm.Path);
+
+            foreach (var i in lines)
+            {
+                var valores = i.Split(',');
+                if (valores[index] == s)
+                {
+                    int n = dataGridView1.Rows.Add();
+                    dataGridView1.Rows[n].Cells[0].Value = valores[0];
+                    dataGridView1.Rows[n].Cells[1].Value = valores[1];
+                    dataGridView1.Rows[n].Cells[2].Value = valores[2];
+                    dataGridView1.Rows[n].Cells[3].Value = valores[3];
+                    dataGridView1.Rows[n].Cells[4].Value = valores[4];
+                }
+            }
+        }
+
+        private int GetIndexCb4()
+        {
+            string s = comboBox4.Text;
+
+            int i = -1;
+            
+            switch (s)
+            {
+                case "Region":
+                    i = 0;
+                    break;
+                case "Department Dane Code":
+                    i = 1;
+                    break;
+                case "Department":
+                    i = 2;
+                    break;
+            }
+
+            return i;
         }
     }
 }
